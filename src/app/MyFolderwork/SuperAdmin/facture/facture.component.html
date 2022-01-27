@@ -1,0 +1,217 @@
+<!-- modal ajout -->
+<app-ui-modal #AddOfficer>
+    <div class="app-modal-header">
+      <h5 class="modal-title">إضافة فاتورة</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="AddOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+   
+    <div class="app-modal-body">
+      <form [formGroup]="factureForm" (ngSubmit)="onSubmit(factureForm)" ngNativeValidate>  
+        <div class="form-group">
+          <label for="inputAddress">رقم الحساب</label>
+          <input type="number" class="form-control" formControlName="compteNum" placeholder="رقم الحساب">
+        </div>
+        <div class="form-group">
+          <label>عدد الشقق</label><br>
+          <div class="form-row">
+            <button type="button" (click)="Add()" class="btn btn-primary">إضافة</button>
+            <button type="button" (click)="Delet()" class="btn btn-danger">حذف</button>
+            <div class="input-group-append">
+              <span class="input-group-text">{{ControlsNumber}} شقة</span>
+            </div>
+          </div>
+          <!-- <input type="number" class="form-control" (keyup)="onKeyUp($event.target.value)" placeholder="عدد الشقق"> -->
+        </div>
+        <div class="form-group">
+          <label>العمارة</label>
+          <select class="form-control" (change)="onChange($event.target.value)" formControlName="architectureId">
+            <option  *ngFor="let item of listArchitectureData" value="{{item.architectureId}}">{{item.architectureName}}</option>
+         </select>
+        </div>
+       <div  formArrayName="appartementList" *ngFor="let item of factureForm.get('appartementList')['controls']; let i = index;">
+        <div class="form-group" [formGroupName]="i">
+           <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">الشقة</label>
+              <select class="form-control" formControlName="appartementId">
+                <option  *ngFor="let item of listAppartementData" value="{{item.appartementId}}">{{item.appartementNumber}}
+                </option>
+             </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">نسبة تحمل	</label>
+              <div class="input-group mb-3">
+                <input type="number" class="form-control" formControlName="appartementPercent" placeholder="نسبة تحمل" required/>
+                <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+                </div>
+       </div>
+        <!-- <div class="form-group">
+          <label for="inputAddress">العمارة</label>
+          <input type="password" class="form-control" id="inputAddress" placeholder="العمارة">
+        </div>
+        <div class="form-group">
+          <label for="inputAddress2"> تأكيد كلمة السر</label>
+          <input type="password" class="form-control" id="inputAddress2" placeholder=" تأكيد كلمة السر">
+        </div> -->
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="AddOfficer.hide()">إغلاق</button>
+        <button type="submit" class="btn btn-primary">إضافة فاتورة</button>
+      </div>
+    </form>
+    </div>
+   
+  </app-ui-modal>
+  
+  
+  <!-- modal ajout -->
+  
+  
+  
+  
+  
+  
+  
+  
+  <div class="row">
+    <!-- [ dark-table ] end -->
+    <!-- [ striped-table ] start -->
+    <div class="col-xl-12">
+      
+      <app-card cardTitle="إدارة فاتورة" blockClass="table-border-style">
+        <span (click)="AddOfficer.show()" style="position: absolute;right: 60px;top: 8px;" class="btn btn-primary ng-tns-c99-43">إضافة فاتورة</span>
+        <div class="table-responsive">
+        
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>رقم الحساب</th>
+              <th>العمارة</th>
+              <th>نسبة تحمل</th>
+              <th>المبلغ</th>
+              <th>عمل</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of listData">
+              <td class="">{{item.factureId}}</td>
+              <td> <span class="badge m-r-5 badge-warning">{{item.compteNum}}</span></td>
+              <td>{{item.architectureId.architectureName}}</td>
+              <td><select class="col-md-6 form-control form-control-sm"><option *ngFor="let k of item.appartementList" value="k.appartementId">{{k.appartementId}} : {{k.appartementPercent}}%</option></select></td>
+
+              <td><button (click)="setMoneyById(item.factureId)" style="border: 0;background: transparent;outline: none;"><span (click)="SetMoney.show()" class="btn-sm btn-primary" style="cursor: pointer;">{{item.facturePrix}} $ المبلغ</span></button></td>
+              <td>
+                <button (click)="getFactureById(item.factureId)" style="border: 0; background: transparent;outline: none;">
+                <i class="fas fa-edit" (click)="EditOfficer.show()" style="cursor: pointer;color: #f1c40f;"></i>
+              </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-card>
+    </div>
+    </div>
+    
+    
+    
+     
+  
+  <!-- edit modal -->
+  <app-ui-modal #EditOfficer>
+    <div class="app-modal-header">
+      <h5 class="modal-title">تعديل فاتورة</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="EditOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+      <form [formGroup]="EditFacture" (ngSubmit)="onEdit(EditFacture)" ngNativeValidate>
+        <div class="form-group">
+          <label for="inputAddress">رقم الحساب</label>
+          <input type="text" class="form-control" formControlName="compteNum" placeholder="رقم الحساب">
+        </div>
+        
+        <div class="form-group">
+          <label>عدد الشقق</label><br>
+          <div class="form-row">
+            <button type="button" (click)="AddApp()" class="btn btn-primary">إضافة</button>
+            <button type="button" (click)="DeletApp()" class="btn btn-danger">حذف</button>
+            <div class="input-group-append">
+              <span class="input-group-text">{{ControlsNumber}} شقة</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>العمارة</label>
+          <select class="form-control" (change)="onChange($event.target.value)" formControlName="architectureId">
+            <option  *ngFor="let item of listArchitectureData" value="{{item.architectureId}}">{{item.architectureName}}</option>
+         </select>
+        </div>
+
+        <div  formArrayName="appartementList" *ngFor="let item of EditFacture.get('appartementList')['controls']; let i = index;">
+          <div class="form-group" [formGroupName]="i">
+             <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">الشقة</label>
+                <select class="form-control" formControlName="appartementId">
+                  <option  *ngFor="let item of listAppartementData" value="{{item.appartementId}}">{{item.appartementNumber}}
+                  </option>
+               </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">نسبة تحمل	</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" formControlName="appartementPercent" placeholder="نسبة تحمل" required/>
+                  <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+                  </div>
+         </div> 
+
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="EditOfficer.hide()">إغلاق</button>
+        <button type="submit" class="btn btn-primary">تعديل فاتورة</button>
+      </div>
+    </form>
+    </div>
+   
+  </app-ui-modal>
+  
+  <!-- edit modal -->
+
+
+
+
+  <!-- set money modal -->
+
+  <app-ui-modal #SetMoney>
+    <div class="app-modal-header">
+      <h5 class="modal-title">مبلغ فاتورة</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="SetMoney.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+      <form [formGroup]="setMoneyForm" (ngSubmit)="onSetMoney(setMoneyForm)"> 
+        <div class="input-group mb-3">
+          
+          <input type="number" class="form-control" formControlName="facturePrix" placeholder="مبلغ فاتورة">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">$</span>
+          </div>
+        </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="SetMoney.hide()">إغلاق</button>
+        <button type="submit" class="btn btn-primary">تسجيل المبلغ</button>
+      </div>
+    </form>
+    </div>
+   
+  </app-ui-modal>
+  <!--  set money modal -->

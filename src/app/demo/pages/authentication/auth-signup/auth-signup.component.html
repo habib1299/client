@@ -1,0 +1,62 @@
+<div class="auth-wrapper">
+  <div class="auth-content text-center">
+    <!-- <img src="assets/images/auth/auth-logo.png" alt="" class="img-fluid mb-4"> -->
+    <h2 class="img-fluid mb-4" style="color: rgba(255, 255, 255, 0.8);">مؤسّسة نبل للعقّارات</h2>
+    <div class="card borderless">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h4 class="mb-3 f-w-400">تسجيل حساب جديد</h4>
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm)" ngNativeValidate>
+              <div *ngIf="verifConnexion" role="alert" [class]="errorMessage ? 'alert alert-danger' : 'alert alert-danger'">{{Message}}<!----></div>
+              <div class="form-group">
+               <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text">966</span>
+                 </div>
+                 <input type="number" class="form-control" placeholder="5xxxxxxxx" formControlName="phone" required>
+               </div>
+              </div>
+               <div class="form-group">
+                 <input type="text" class="form-control"  placeholder="الإسم كامل" formControlName="fullName" required>
+               </div>
+               <div class="form-group">
+                 <input type="email" class="form-control" placeholder="البريد الإلكتروني" formControlName="email" required />
+               </div>
+               <div class="form-group">
+                 <input type="password" class="form-control" placeholder="كلمة السر" formControlName="password" required />
+               </div>
+               <div class="form-group">
+                 <input type="password" class="form-control" formControlName="confirmPassword" placeholder=" تأكيد كلمة السر" required />
+               </div>
+               <div class="form-group">
+                <select class="form-control" (change)="onChange($event.target.value)" formControlName="architectureId">
+                  <option *ngFor="let item of architectureList" value="{{item.architectureId}}">
+                    {{item.architectureName}}
+                  </option>
+                </select>
+               </div>
+               <div class="form-group">
+                <select class="form-control" formControlName="appartementId">
+                  <option *ngFor="let item of appartementList" value="{{item.appartementId}}">
+                    {{item.appartementNumber}}
+                  </option>
+                </select>
+               </div>
+               <button class="btn btn-primary btn-block mb-4" type="submit" (click)="onBtnLoader()">
+            
+                <span *ngIf="this.btnLoader" class="load-text">...جاري تحميل </span>
+                <span *ngIf="this.btnLoader" class="spinner-border spinner-border-sm" role="status"></span>
+                <span *ngIf="!this.btnLoader" class="btn-text">تسجيل الدخول</span>
+              </button>
+           </form>
+           
+            <p class="mb-2"> مسجل من قبل ؟ <a [routerLink]="['/auth/signin']" class="f-w-400"> تسجيل الدخول </a></p>
+            <p class="mb-2">للشكاوي و الإقتراحات يرجى التواصل معنا جوال</p>
+            <p class="mb-2">*************: رقم</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

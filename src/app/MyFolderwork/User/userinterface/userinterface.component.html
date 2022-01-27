@@ -1,0 +1,33 @@
+<div class="col-xl-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>اسم المستخدم</th>
+          <th>رقم العمارة </th>
+          <th>رقم الشقة</th>
+          <th>المبلغ</th>
+          <th>دفع</th>
+          <th>خروج</th>
+        </tr>
+        </thead>
+        <tbody>
+          <!-- [class]="item.appartementFacturePayed ? 'table-info' : 'table-danger'" -->
+        <tr>
+          <td>{{listData.username}}</td>
+          <td><span class="badge m-r-5 badge-info">{{architectureName}}</span></td>
+          <td><span class="badge m-r-5 badge-warning">{{AppartmentData.appartementNumber}}</span></td>
+          <!-- <td>
+            <span [class]="item.appartementStatus ? 'badge m-r-5 badge-success' : 'badge m-r-5 badge-danger'">{{listData.appartementStatus}}</span>
+           </td> -->
+           <!-- <td><span class="badge m-r-5 badge-info">{{item.appartementPercent}} %</span></td> -->
+            <td><span class="btn btn-danger btn-sm ng-tns-c85-33">{{AppartmentData.appartementFacturePrix}} $</span></td>
+           <td><button type="button" (click)="goPayments()" class="btn btn-success btn-sm ng-tns-c85-33">
+             <i _ngcontent-uuf-c114="" class="fas fa-dollar-sign"></i> دفع 
+            </button></td>
+         <td><button class="btn btn-primary btn-sm ng-tns-c85-33" (click)="logout()">خروج</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+</div>

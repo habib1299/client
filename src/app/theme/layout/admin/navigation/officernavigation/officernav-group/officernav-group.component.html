@@ -1,0 +1,8 @@
+<ng-container *ngIf="!item.hidden">
+  <li class="nav-item pcoded-menu-caption"><label>{{item.title}}</label></li>
+  <ng-container *ngFor="let item of item.children">
+    <app-officernav-group *ngIf="item.type=='group'" [item]="item"></app-officernav-group>
+    <app-officernav-collapse *ngIf="item.type=='collapse'" [item]="item"></app-officernav-collapse>
+    <app-officernav-item *ngIf="item.type=='item'" [item]="item"></app-officernav-item>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,157 @@
+<!-- modal ajout -->
+<app-ui-modal #AddUser>
+  <div class="app-modal-header">
+    <h5 class="modal-title">إضافة عميل</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="AddUser.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm)" ngNativeValidate>
+     <div class="form-group">
+      <label>رقم الجوال</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">966</span>
+        </div>
+        <input type="number" class="form-control" placeholder="5xxxxxxxx" formControlName="phone" required>
+      </div>
+     </div>
+      <div class="form-group">
+        <label>الإسم كامل</label>
+        <input type="text" class="form-control"  placeholder="الإسم كامل" formControlName="fullName" required>
+      </div>
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" class="form-control" placeholder="البريد الإلكتروني" formControlName="email" required />
+      </div>
+      <div class="form-group">
+        <label>كلمة السر</label>
+        <input type="password" class="form-control" placeholder="كلمة السر" formControlName="password" required />
+      </div>
+      <div class="form-group">
+        <label> تأكيد كلمة السر</label>
+        <input type="password" class="form-control" formControlName="confirmPassword" placeholder=" تأكيد كلمة السر" required />
+      </div>
+      <div class="form-group">
+        <label>عمارة</label>
+       <select class="form-control" (change)="onChange($event.target.value)" formControlName="architectureId">
+         <option *ngFor="let item of architectureList" value="{{item.architectureId}}">
+           {{item.architectureName}}
+         </option>
+       </select>
+      </div>
+      <div class="form-group">
+        <label>شقة</label>
+       <select class="form-control" formControlName="appartementId">
+         <option *ngFor="let item of appartementList" value="{{item.appartementId}}">
+           {{item.appartementNumber}}
+         </option>
+       </select>
+      </div>
+    <div class="app-modal-footer">
+      <button type="submit" class="btn btn-secondary" data-dismiss="modal" (click)="AddUser.hide()">إغلاق</button>
+      <button type="submit" class="btn btn-primary">إضافة عميل</button>
+    </div>
+  </form>
+  </div>
+ 
+</app-ui-modal>
+
+
+<!-- modal ajout -->
+
+
+
+
+<!-- [ dark-table ] end -->
+<!-- [ striped-table ] start -->
+<div class="col-xl-12">
+<app-card cardTitle="إدارة عميل" blockClass="table-border-style">
+<span (click)="AddUser.show()" style="position: absolute;right: 60px;top: 8px;" class="btn btn-primary ng-tns-c99-43">إضافة عميل</span>
+<div class="table-responsive">
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>الإسم كامل</th>
+      <th>رقم الجوال</th>
+      <th>البريد الإلكتروني</th>
+      <th>العمارة</th>
+      <th>الشقة</th>
+      <th>وظيفة</th>
+      <th>عمل</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of listData">
+      <td><span class="badge m-r-5 badge-success">{{item.userId}}</span></td>
+      <td>{{item.fullName}}</td>
+      <td>{{item.phone}}</td>
+      <td>{{item.email}}</td>
+      <td><span class="badge m-r-5 badge-danger">{{item.architectureId.architectureName}}</span></td>
+      <td><span class="badge m-r-5 badge-warning">{{item.appartementId.appartementNumber}}</span></td>
+      <td><span class="badge m-r-5 badge-info">{{item.userType}}</span></td>
+    
+      <td><button style="background-color: transparent;border: 0 transparent;outline: 0;" (click)="ediitUser(item.userId)"><i class="fas fa-edit" (click)="EditUser.show();" style="cursor: pointer;color: #f1c40f;" ></i></button><i class="fas fa-trash" (click)="DeleteUser(item.userId)" style="padding-left: 5px;cursor: pointer;color: #e74c3c;"></i></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</app-card>
+</div>
+
+
+
+
+
+<!-- edit modal -->
+<app-ui-modal #EditUser>
+<div class="app-modal-header">
+<h5 class="modal-title">تعديل عميل</h5>
+<button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="EditUser.hide()"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="app-modal-body">
+<form [formGroup]="editForm" (ngSubmit)="onEdit(editForm)" ngNativeValidate>
+ <div class="form-group">
+  <label>رقم الجوال</label>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text">966</span>
+    </div>
+    <input type="text" class="form-control" placeholder="5xxxxxxxx" formControlName="phone" required />
+  </div>
+ </div>
+  <div class="form-group">
+    <label>الإسم كامل</label>
+    <input type="text" class="form-control"  placeholder="الإسم كامل" formControlName="fullName" required />
+  </div>
+  <div class="form-group">
+    <label>البريد الإلكتروني</label>
+    <input type="email" class="form-control"  placeholder="البريد الإلكتروني" formControlName="email" required />
+  </div>
+  <div class="form-group">
+    <label>عمارة</label>
+   <select class="form-control" formControlName="architectureId">
+     <option *ngFor="let item of architectureList" (change)="onChange($event.target.value)" [ngValue]="item.architectureId">
+       {{item.architectureName}}
+     </option>
+   </select>
+  </div>
+  <div class="form-group">
+    <label>شقة</label>
+   <select class="form-control" formControlName="appartementId">
+     <option *ngFor="let item of appartementEditList" [ngValue]="item.appartementId">
+       {{item.appartementNumber}}
+     </option>
+   </select>
+  </div>
+<div class="app-modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="EditUser.hide()">إغلاق</button>
+  <button type="submit" class="btn btn-primary">تعديل عميل</button>
+</div>
+</form>
+</div>
+
+</app-ui-modal>
+
+<!-- edit modal -->

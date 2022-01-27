@@ -1,0 +1,30 @@
+<div class="auth-wrapper">
+    <div class="auth-content text-center">
+      <!-- <img src="assets/images/auth/auth-logo.png" alt="" class="img-fluid mb-4"> -->
+      <h2 class="img-fluid mb-4" style="color: rgba(255, 255, 255, 0.8);">مؤسّسة نبل للعقّارات</h2>
+      <div class="card borderless">
+        <div class="row align-items-center text-center">
+          <div class="col-md-12">
+            <div class="card-body">
+              <h4 class="mb-3 f-w-400">تحقق من الدفع الفاتورة</h4>
+              <form [formGroup]="verifForm" (ngSubmit)="onSubmit()" ngNativeValidate>
+                <div *ngIf="verifCash" role="alert" [class]="succe ? 'alert alert-info' : 'alert alert-danger'">{{ErrorMessage}} <!----></div>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" (change)="onFileSelect($event)" name="image" placeholder="تصفح">
+                    <label class="custom-file-label" for="validatedCustomFile">...اختر الصورة </label>
+                  </div><br><br>
+            
+              <button class="btn btn-primary btn-block mb-4" type="submit" (click)="onBtnLoader()">
+                <span *ngIf="this.btnLoader" class="load-text">...جاري تحميل </span>
+                <span *ngIf="this.btnLoader" class="spinner-border spinner-border-sm" role="status"></span>
+                <span *ngIf="!this.btnLoader" class="btn-text">دفع الفاتورة</span>
+              </button>
+              <button class="btn btn-primary btn-block mb-4" type="button" (click)="logOut()">خروج</button>
+            </form>
+              <p class="mb-0 text-muted"> ليس لديك حساب ؟  <a [routerLink]="['/auth/signup']" class="f-w-400"> االإشتراك</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

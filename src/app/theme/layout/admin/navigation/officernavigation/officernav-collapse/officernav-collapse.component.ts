@@ -1,0 +1,70 @@
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Input, OnInit } from '@angular/core';
+import { NextConfig } from 'src/app/app-config';
+import { OfficerNavigationItem } from '../../officernavigation';
+
+@Component({
+  selector: 'app-officernav-collapse',
+  templateUrl: './officernav-collapse.component.html',
+  styleUrls: ['./officernav-collapse.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({transform: 'translateY(-100%)', display: 'block'}),
+        animate('250ms ease-in', style({transform: 'translateY(0%)'}))
+      ]),
+      transition(':leave', [
+        animate('250ms ease-in', style({transform: 'translateY(-100%)'}))
+      ])
+    ])
+  ],
+})
+export class OfficernavCollapseComponent implements OnInit {
+  public visible;
+  @Input() item: OfficerNavigationItem;
+  public flatConfig: any;
+  public themeLayout: string;
+
+  constructor() {
+    this.visible = false;
+    this.flatConfig = NextConfig.config;
+    this.themeLayout = this.flatConfig.layout;
+  }
+
+  ngOnInit() {
+  }
+
+  navCollapse(e) {
+    this.visible = !this.visible;
+
+    let parent = e.target;
+    if (this.themeLayout === 'vertical') {
+      parent = parent.parentElement;
+    }
+
+    const sections = document.querySelectorAll('.pcoded-hasmenu');
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i] !== parent) {
+        sections[i].classList.remove('pcoded-trigger');
+      }
+    }
+
+    let firstParent = parent.parentElement;
+    let preParent = parent.parentElement.parentElement;
+    if (firstParent.classList.contains('pcoded-hasmenu')) {
+      do {
+        firstParent.classList.add('pcoded-trigger');
+        // firstParent.parentElement.classList.toggle('pcoded-trigger');
+        firstParent = firstParent.parentElement.parentElement.parentElement;
+      } while (firstParent.classList.contains('pcoded-hasmenu'));
+    } else if (preParent.classList.contains('pcoded-submenu')) {
+      do {
+        preParent.parentElement.classList.add('pcoded-trigger');
+        preParent = preParent.parentElement.parentElement.parentElement;
+      } while (preParent.classList.contains('pcoded-submenu'));
+    }
+    parent.classList.toggle('pcoded-trigger');
+  }
+
+
+}

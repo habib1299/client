@@ -1,0 +1,164 @@
+<!-- modal ajout -->
+    <app-ui-modal #AddOfficer>
+      <div class="app-modal-header">
+        <h5 class="modal-title">إضافة موظف</h5>
+        <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="AddOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="app-modal-body">
+        <form action="javascript:">
+         <div class="form-group">
+          <label for="inputAddress">رقم الجوال</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">966</span>
+            </div>
+            <input type="text" class="form-control" placeholder="5xxxxxxxx" aria-describedby="basic-addon1">
+          </div>
+         </div>
+          
+          <div class="form-group">
+            <label for="inputAddress">الإسم كامل</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="الإسم كامل">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">البريد الإلكتروني</label>
+            <input type="email" class="form-control" id="inputAddress" placeholder="البريد الإلكتروني">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">كلمة السر</label>
+            <input type="password" class="form-control" id="inputAddress" placeholder="كلمة السر">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress2"> تأكيد كلمة السر</label>
+            <input type="password" class="form-control" id="inputAddress2" placeholder=" تأكيد كلمة السر">
+          </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="AddOfficer.hide()">إغلاق</button>
+          <button type="submit" class="btn btn-primary">إضافة موظف</button>
+        </div>
+      </form>
+      </div>
+     
+    </app-ui-modal>
+   
+
+<!-- modal ajout -->
+
+
+<div class="row">
+
+<!-- table card start -->
+<div class="col-xl-4 col-md-12">
+  <app-card [hidHeader]="true">
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h3>$16,756</h3>
+        <h6 class="text-muted m-b-0">Visits<i class="fa fa-caret-down text-c-red m-l-10"></i></h6>
+      </div>
+      <div class="col-6">
+        <app-apex-chart chartID="seo-chart-1" [chartConfig]="this.seoChartData1"></app-apex-chart>
+      </div>
+    </div>
+  </app-card>
+</div>
+
+<div class="col-xl-4 col-md-6">
+  <app-card [hidHeader]="true">
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h3>49.54%</h3>
+        <h6 class="text-muted m-b-0">Bounce Rate<i class="fa fa-caret-up text-c-green m-l-10"></i></h6>
+      </div>
+      <div class="col-6">
+        <app-apex-chart chartID="seo-chart-2" [chartConfig]="this.seoChartData2"></app-apex-chart>
+      </div>
+    </div>
+  </app-card>
+</div>
+<!-- table card end -->
+<div class="col-xl-4 col-md-6">
+  <app-card [hidHeader]="true">
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h3>1,62,564</h3>
+        <h6 class="text-muted m-b-0">Products<i class="fa fa-caret-down text-c-red m-l-10"></i></h6>
+      </div>
+      <div class="col-6">
+        <app-apex-chart chartID="seo-chart-3" [chartConfig]="this.seoChartData3"></app-apex-chart>
+      </div>
+    </div>
+  </app-card>
+</div>
+
+
+<!-- [ dark-table ] end -->
+<!-- [ striped-table ] start -->
+<div class="col-xl-12">
+  <app-card cardTitle="إدارة الموظف" blockClass="table-border-style">
+    <span (click)="AddOfficer.show()" style="position: absolute;right: 60px;top: 8px;" class="btn btn-primary ng-tns-c99-43">إضافة موظف</span>
+    <div class="table-responsive">
+
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>الإسم كامل</th>
+          <th>رقم الجوال</th>
+          <th>البريد الإلكتروني</th>
+          <th>عمل</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of listData">
+          <td>{{item.id}}</td>
+          <td>{{item.nom}}</td>
+          <td>{{item.phone}}</td>
+          <td>{{item.email}}</td>
+          <td><i class="fas fa-edit" (click)="EditOfficer.show()" style="cursor: pointer;color: #f1c40f;" ></i><i class="fas fa-trash"  style="padding-left: 5px;cursor: pointer;color: #e74c3c;"></i></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-card>
+</div>
+</div>
+
+
+
+
+<!-- edit modal -->
+<app-ui-modal #EditOfficer>
+  <div class="app-modal-header">
+    <h5 class="modal-title">تعديل موظف</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="EditOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <form action="javascript:">
+     <div class="form-group">
+      <label for="inputAddress">رقم الجوال</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">966</span>
+        </div>
+        <input type="text" class="form-control" placeholder="5xxxxxxxx" aria-describedby="basic-addon1">
+      </div>
+     </div>
+      
+      <div class="form-group">
+        <label for="inputAddress">الإسم كامل</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="الإسم كامل">
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">البريد الإلكتروني</label>
+        <input type="email" class="form-control" id="inputAddress" placeholder="البريد الإلكتروني">
+      </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="EditOfficer.hide()">إغلاق</button>
+      <button type="submit" class="btn btn-primary">تعديل موظف</button>
+    </div>
+  </form>
+  </div>
+ 
+</app-ui-modal>
+
+<!-- edit modal -->

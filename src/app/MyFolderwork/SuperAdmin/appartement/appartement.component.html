@@ -1,0 +1,180 @@
+<!-- modal ajout -->
+<app-ui-modal #AddOfficer>
+    <div class="app-modal-header">
+      <h5 class="modal-title">إضافة شقة</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="AddOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+      <form [formGroup]="appartementForm" (ngSubmit)="onSubmit(appartementForm)" ngNativeValidate>
+        
+        <div class="form-group">
+          <label for="inputAddress">رقم الشقة</label>
+          <input type="text" formControlName="appartementNumber" class="form-control" placeholder="رقم الشقة" required />
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">العمارة </label>
+            <select  class="form-control" (change)="onChange($event.target.value)" formControlName="architectureId">
+              <option *ngFor="let item of ArchitectureData" value="{{item.architectureId}}">{{item.architectureName}}</option>
+            </select>
+        </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="AddOfficer.hide()">إغلاق</button>
+        <button type="submit" class="btn btn-primary">إضافة شقة</button>
+      </div>
+    </form>
+    </div>
+   
+  </app-ui-modal>
+  
+  
+  <!-- modal ajout -->
+  
+  
+  
+  
+    
+    <!-- [ dark-table ] end -->
+    <!-- [ striped-table ] start -->
+    <div class="col-xl-12">
+      <app-card cardTitle="إدارة شقة" blockClass="table-border-style">
+        <span (click)="AddOfficer.show()" style="position: absolute;right: 60px;top: 8px;" class="btn btn-primary ng-tns-c99-43">إضافة شقة</span>
+        <div class="table-responsive">
+    
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>رقم الشقة</th>
+              <th>رقم العمارة </th>
+              <th>الحالة</th>
+              <th>المبلغ</th>
+              <th>صورة</th>
+              <th>عمل</th>
+              <th>other</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of listData" [class]="item.appartementFacturePayed ? 'table-info' : 'table-danger'">
+              <td>{{item.appartementId}}</td>
+              <td><span class="badge m-r-5 badge-warning">{{item.appartementNumber}}</span></td>
+              <td>{{item.architectureId.architectureName}}</td>
+              <td>
+                <span [class]="item.appartementStatus ? 'badge m-r-5 badge-success' : 'badge m-r-5 badge-danger'">{{item.appartementStatus}}</span>
+               </td>
+               <!-- <td><span class="badge m-r-5 badge-info">{{item.appartementPercent}} %</span></td> -->
+               <td><span class="badge m-r-5 badge-danger">{{item.appartementFacturePrix}} $</span></td>
+               <td>
+                 <button (click)="myLargeModalLabel.show()" style="border: 0;background-color: transparent;outline: none;"><i (click)="VerifPayment(item.appartementId)" class="fas fa-eye" style="cursor: pointer;color: #148f77;"></i></button></td>
+              <td><button (click)="getAppartementById(item.appartementId)" style="border: 0; outline: 0; background-color: transparent;"><i class="fas fa-edit" (click)="EditOfficer.show()" style="cursor: pointer;color: #f1c40f;"></i></button><i class="fas fa-trash" (click)="DeleteAppartement(item.appartementId)" style="padding-left: 5px;cursor: pointer;color: #e74c3c;"></i>  
+               </td>
+               <td><button (click)="getById(item.appartementId)" style="border: 0;background-color: transparent;outline: none;"><i (click)="validByClick.show()" style="padding-left: 6px; color: rgb(11, 172, 5);cursor: pointer;" class="fas fa-check-double"></i></button>
+                <button (click)="getById(item.appartementId)" style="border: 0;background-color: transparent;outline: none;"><i (click)="refByClick.show()" style="padding-left: 6px; color: rgb(172, 58, 5);cursor: pointer;" class="fas fa-times-circle"></i></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-card>
+    </div>
+  
+    
+    
+    
+    
+  
+  
+  <!-- edit modal -->
+  <app-ui-modal #EditOfficer>
+    <div class="app-modal-header">
+      <h5 class="modal-title">إضافة شقة</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="EditOfficer.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+      <form [formGroup]="editappartementForm" (ngSubmit)="onEdit(editappartementForm)" ngNativeValidate>
+        
+        <div class="form-group">
+          <label for="inputAddress">رقم الشقة</label>
+          <input type="text" formControlName="appartementNumber" class="form-control" placeholder="رقم الشقة" required />
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">العمارة </label>
+            <select  class="form-control" formControlName="architectureId">
+              <option *ngFor="let item of ArchitectureData" [ngValue]="item.architectureId">{{item.architectureName}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">الحالة</label>
+          <select  class="form-control" formControlName="appartementStatus">
+            <option *ngFor="let tf of TrueFalse" [ngValue]="tf.value">{{tf.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">نسبة </label>
+          <input type="text" formControlName="appartementFacturePrix" class="form-control" placeholder="نسبة تحمل" required />
+        </div>
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="EditOfficer.hide()">إغلاق</button>
+        <button type="submit" class="btn btn-primary">إضافة شقة</button>
+      </div>
+    </form>
+    </div>
+   
+  </app-ui-modal>
+  
+  
+  <!-- edit modal -->
+
+
+
+<!-- Valid payment by click -->
+<app-ui-modal #validByClick>
+  <div class="app-modal-header">
+    <h5 class="modal-title">تأكيد الدفع</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="validByClick.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <p>هل تريد تأكيد الدفع؟</p>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="validByClick.hide()">غلق</button>
+    <button type="button" class="btn btn-primary" (click)="validFacturePayments()">تأكيد الدفع</button>
+  </div>
+</app-ui-modal>
+
+<!-- valid payment by click -->
+
+<!-- refuse payment by click -->
+<app-ui-modal #refByClick>
+  <div class="app-modal-header">
+    <h5 class="modal-title">رفض الدفع</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="refByClick.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <p>هل تريد رفض الدفع؟</p>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="refByClick.hide()">غلق</button>
+    <button type="button" class="btn btn-primary" (click)="refuseFacturePayments()">رفض الدفع</button>
+  </div>
+</app-ui-modal>
+
+
+
+  <!-- view payment with image -->
+
+
+  <app-ui-modal #myLargeModalLabel [hideFooter]="true" [dialogClass]="'modal-lg'">
+    <div class="app-modal-header">
+      <h5 class="modal-title">التحقق من الدفع</h5>
+      <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="myLargeModalLabel.hide()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="app-modal-body">
+      <img [src]='image' style="margin-bottom: 20px;width: 100%;height: 100%;">
+      <div class="app-modal-footer">
+        <button (click)="ReloadPage()" style="border: 0;background-color: transparent;outline: none;"><button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="myLargeModalLabel.hide()">إغلاق</button></button>
+        <button type="submit" class="btn btn-primary">تم التحقق من الدفع</button>
+      </div>
+    </div>
+    
+  </app-ui-modal>
+  <!-- view payment with image -->

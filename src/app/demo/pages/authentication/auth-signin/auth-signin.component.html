@@ -1,0 +1,31 @@
+<div class="auth-wrapper">
+  <div class="auth-content text-center">
+    <!-- <img src="assets/images/auth/auth-logo.png" alt="" class="img-fluid mb-4"> -->
+    <h2 class="img-fluid mb-4" style="color: rgba(255, 255, 255, 0.8);">مؤسّسة نبل للعقّارات</h2>
+    <div class="card borderless">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <div class="card-body">
+            <h4 class="mb-3 f-w-400">تسجيل الدخول</h4>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+              <div *ngIf="verifConnexion" role="alert" class="alert alert-danger">التحقق من اتصالك <!----></div>
+            <div class="input-group mb-3">
+              <input type="email" required class="form-control" formControlName="email" placeholder="البريد الإلكتروني"/>
+            </div>
+            <div class="input-group mb-4">
+              <input type="password" required class="form-control" formControlName="password" placeholder="كلمة السر" minlength="3"/>
+            </div>
+            <button class="btn btn-primary btn-block mb-4" type="submit" (click)="onBtnLoader()">
+            
+              <span *ngIf="this.btnLoader" class="load-text">...جاري تحميل </span>
+              <span *ngIf="this.btnLoader" class="spinner-border spinner-border-sm" role="status"></span>
+              <span *ngIf="!this.btnLoader" class="btn-text">تسجيل الدخول</span>
+            </button>
+          </form>
+            <p class="mb-0 text-muted"> ليس لديك حساب ؟  <a [routerLink]="['/auth/signup']" class="f-w-400"> االإشتراك</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
